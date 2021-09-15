@@ -14,6 +14,9 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, ListItem, ListFlowable, Frame, Image
 
+from .database import Mysql
+
+from ..config.mysql import config as db_config
 from ..config.base import project_path
 
 
@@ -164,20 +167,38 @@ class Certificate:
         temp_zip = io.BytesIO()
         temp_txt = io.StringIO()
         f_zip = zipfile.ZipFile(temp_zip, mode="a")
+        # iteration all students
         for key, value in enumerate(passed_array):
             student_id, student_name, passed_type = value
+            # if student has passed any type of course
             if len(passed_type) > 0:
+                # Get current time to set certificate number
                 now = datetime.now()
                 certificate_number = f'{now.year - 1911}{serial_number:04d}'
 
+                # Calculate certificate number
+                certificate_number, is_duplicate = self.check_history(student_id, certificate_number)
+
+                # Generate certificate
                 certificate = self.generate(student_id, student_name, passed_type, certificate_number, now)
+
+                # Insert/Update certificate table
+                if is_duplicate:
+                    self.record_certificate(certificate_number, student_id, student_name, passed_type)
+                else:
+                    self.update_certificate(certificate_number, passed_type)
+
+                # Finish certificate operation, start to save the file
                 serial_number += 1
                 try:
                     f_zip.writestr(f'{student_id}.pdf', certificate)
                 except Exception as e:
-                    print("異常物件的型別是:%s" % type(e))
-                    print("異常物件的內容是:%s" % e)
+                    print("Exception type is :%s" % type(e))
+                    print("Exception content is :%s" % e)
+
+            # write into file to record
             temp_txt.write(f'{student_id},{student_name},{passed_type},\n')
+
         file_txt = temp_txt.getvalue()
         temp_txt.close()
         f_zip.writestr(f'Summary.txt', file_txt)
@@ -185,3 +206,74 @@ class Certificate:
         file_zip = temp_zip.getvalue()
         temp_zip.close()
         return file_zip
+
+    def check_history(self, student_id, certificate_number):
+        """
+        檢查是否申請過證書()
+        是>	回傳歷史證號
+        否>	檢查證號使否重複()
+            是>	回傳一個不重複的證號
+            否>	回傳輸入證號
+        """
+        with Mysql(db_config) as db:
+            sql = f'''
+                SELECT *
+                FROM `score-analyse`.`generate-certificate`
+                where StudentNumber=%(student_id)s;
+            '''
+            bind = {
+                'student_id': student_id
+            }
+            results = db.query(sql, bind)
+            row = next(iter(results), None)
+        if row is None:
+            return self.check_duplicate_number(certificate_number), True
+        else:
+            return row['CertificateNumber'], False
+
+    def check_duplicate_number(self, certificate_number):
+        with Mysql(db_config) as db:
+            sql = f'''
+                SELECT CertificateNumber
+                FROM `score-analyse`.`generate-certificate`
+                where CertificateNumber=%(certificate_number)s;
+            '''
+            bind = {
+                'certificate_number': certificate_number
+            }
+            results = db.query(sql, bind)
+        if len(results) == 0:
+            return certificate_number
+        else:
+            exist_certificate_number = list(value['CertificateNumber'] for key, value in enumerate(results))
+            while certificate_number in exist_certificate_number:
+                certificate_number += 1
+            return certificate_number
+
+    def record_certificate(self, certificate_number, student_number, student_name, passed_type):
+        with Mysql(db_config) as db:
+            sql = f'''
+                INSERT INTO `score-analyse`.`generate-certificate` 
+                    (CertificateNumber, StudentNumber, StudentName, PassedType) 
+                VALUES(%(certificate_number)s, %(student_number)s, %(student_name)s, %(passed_type)s);
+            '''
+            bind = {
+                'certificate_number': certificate_number,
+                'student_number': student_number,
+                'student_name': student_name,
+                'passed_type': str(passed_type)
+            }
+            db.exec(sql, bind)
+
+    def update_certificate(self, certificate_number, passed_type):
+        with Mysql(db_config) as db:
+            sql = f'''
+                UPDATE `score-analyse`.`generate-certificate` 
+                SET PassedType=%(passed_type)s 
+                WHERE CertificateNumber=%(certificate_number)s;
+            '''
+            bind = {
+                'certificate_number': certificate_number,
+                'passed_type': str(passed_type)
+            }
+            db.exec(sql, bind)
