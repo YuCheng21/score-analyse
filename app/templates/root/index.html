@@ -1,0 +1,362 @@
+{% extends "base/all.html" %}
+
+{% block style %}
+    {{ super() }}
+    <style>
+        #intro-1 {
+            background-image: url("{{ url_for('static', filename="src/img/intro-1.png") }}");
+            background-size: 200px;
+            height: 200px;
+        }
+
+        #intro-2 {
+            background-image: url("{{ url_for('static', filename="src/img/intro-2.png") }}");
+            background-size: 200px;
+            height: 200px;
+        }
+    </style>
+{% endblock %}
+
+{% block navbar_item %}
+    <ul class="navbar-nav fs-4 fw-bold ds-100">
+        <li class="nav-item hv-scale">
+            <a href="#" class="nav-link text-white hv-color-text" data-bs-toggle="modal" data-bs-target="#manualModal">
+                <span class="iconify-inline" data-icon="clarity:info-standard-solid"></span>
+                <span>使用說明</span>
+            </a>
+        </li>
+        {% if session['role'] == 'admin' %}
+            <li class="nav-item hv-scale">
+                <a href="#" class="nav-link text-white hv-color-text" data-bs-toggle="modal" data-bs-target="#multipleCertModal">
+                    <span class="iconify-inline" data-icon="si-glyph:document-copy"></span>
+                    <span>批次匯出證書</span>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a href="#skills" class="nav-link text-white hv-color-text dropdown-toggle" data-bs-toggle="dropdown">
+                    <span class="iconify-inline" data-icon="bi:table"></span>
+                    <span>抵免彙整表</span>
+                </a>
+                <ul class="dropdown-menu fade">
+                    <li>
+                        <a href="#" class="dropdown-item hv-color-bg" data-bs-toggle="modal" data-bs-target="#passedTableModal">
+                            <span class="iconify-inline" data-icon="majesticons:cloud-upload"></span>
+                            <span>上傳抵免彙整表</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('root.passed') }}" class="dropdown-item hv-color-bg">
+                            <span class="iconify-inline"
+                                  data-icon="fluent:text-bullet-list-square-edit-20-filled"></span>
+                            <span>查看抵免彙整表</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item hv-scale">
+                <a href="#" class="nav-link text-white hv-color-text" data-bs-toggle="modal" data-bs-target="#changeInfoModal">
+                    <span class="iconify-inline" data-icon="fa-solid:tools"></span>
+                    <span>修改密碼</span>
+                </a>
+            </li>
+            <li class="nav-item hv-scale">
+                <a href="{{ url_for('root.logout') }}" class="nav-link text-white hv-color-text">
+                    <span class="iconify-inline" data-icon="ls:login"></span>
+                    <span>登出</span>
+                </a>
+            </li>
+        {% else %}
+            <li class="nav-item hv-scale">
+                <a href="#" class="nav-link text-white hv-color-text" data-bs-toggle="modal" data-bs-target="#signInModal">
+                    <span class="iconify-inline" data-icon="ls:login"></span>
+                    <span>管理員登入</span>
+                </a>
+            </li>
+        {% endif %}
+
+        {#        <li class="nav-item hv-scale">#}
+        {#            <a href="#" class="nav-link text-white" data-bs-toggle="modal" data-bs-target="#signUpModal">#}
+        {#                <span class="iconify-inline" data-icon="jam:write-f"></span>#}
+        {#                <span>管理員註冊</span>#}
+        {#            </a>#}
+        {#        </li>#}
+    </ul>
+{% endblock %}
+
+{% block main %}
+    <div class="container py-5">
+        <div class="banner d-flex justify-content-center">
+            <div class="display-4 text-center">
+                <p>上傳你的成績單，<br>來看看學習進度吧！</p>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <form action="{{ url_for('root.result') }}" id="singleCert" method="POST" enctype="multipart/form-data">
+                <label class="btn btn-primary btn-lg fs-4">
+                    <input id="singleCertInput" type="file" accept="application/pdf" name="singleCertInput"
+                           class="d-none">
+                    <span class="iconify-inline" data-icon="fa-solid:file-upload"></span>
+                    <span>上傳歷年成績單 (PDF)</span>
+                </label>
+            </form>
+        </div>
+
+        <p class="alert alert-primary fs-5 text-center mt-4 py-1">
+            <span>該分析結果可能尚未包含已抵免課程</span>
+        </p>
+
+        <div class="row gy-4">
+            <div class="col-12 col-lg-6">
+                <div class="card hv-shadow">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="card-img border" id="intro-1"></div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body">
+                                <h3 class="card-title">學程分析</h3>
+                                <p class="card-text">標記已通過學分，了解距離自己選擇的方向還缺少哪些課程，查看未來可以選擇哪些課程，來完成自己選擇的學程。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="card hv-shadow">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="card-img border" id="intro-2"></div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body">
+                                <h3 class="card-title">綜合趨勢</h3>
+                                <p class="card-text">計算已通過學分數檢查學習進度，進一步了解自己在哪個學程較為突出，提供未來方向選擇的參考。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    {{ super() }}
+
+    <div class="modal" tabindex="-1" id="manualModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-secondary bg-opacity-50">
+                    <h5 class="modal-title fw-bold fs-4">
+                        <span class="iconify-inline" data-icon="clarity:info-standard-solid"></span>
+                        <span>使用說明</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <video controls width="100%" height="auto">
+                        <source src="{{ url_for('static',filename='src/video/Instructions.mp4') }}">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if session['role'] == 'admin' %}
+        <div class="modal fade" tabindex="-1" id="multipleCertModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-secondary bg-opacity-50">
+                        <h5 class="modal-title fw-bold fs-4">
+                            <span class="iconify-inline" data-icon="si-glyph:document-copy"></span>
+                            <span>批次匯出證書</span>
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row gy-2">
+                            <div class="col-12">
+                                <form action="{{ url_for('root.multiple_cert') }}" id="multipleCertForm" method="POST"
+                                      enctype="multipart/form-data">
+                                    <input type="file" name="multipleCertInput" accept="application/pdf"
+                                           class="form-control form-control-lg mb-3 multipleCertInput" multiple>
+                                    <div class="input-group mb-3">
+                                        <label for="serialNumber" class="input-group-text fs-5">起始證號</label>
+                                        <input name="serialNumber" type="text" placeholder="輸入要起始的證號" id="serialNumber"
+                                               class="form-control form-control-lg serialNumber">
+                                    </div>
+                                </form>
+                                <p class="alert alert-primary text-center">
+                                    <span>批次處理一個檔案大約 3 秒，<br>可根據上傳檔案數量預估執行時間。</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                        <button type="button" class="btn btn-primary" id="multipleCertSend">確認提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" id="passedTableModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-secondary bg-opacity-50">
+                        <h5 class="modal-title fw-bold fs-4">
+                            <span class="iconify-inline" data-icon="majesticons:cloud-upload"></span>
+                            <span>上傳抵免彙整表</span>
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row gy-2">
+                            <div class="col-12">
+                                <form action="{{ url_for('root.passed') }}" id="passedTableForm" method="POST"
+                                      enctype="multipart/form-data">
+                                    <input type="file" name="passedTableExcel"
+                                           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                           class="form-control form-control-lg mb-3 passedTableInput">
+                                </form>
+                                <p class="alert alert-warning">
+                                    <span>上傳從「</span>
+                                    <a href="https://ws3.nkust.edu.tw/Waiver" target="_blank">學分抵免申請系統</a>
+                                    <span>」下載的彙整表，務必使用格式相同的檔案，避免內容錯誤，格式可以參考此</span>
+                                    <a href="{{ url_for('static', filename="src/file/抵免彙整表 - 範本.xlsx") }}">範本</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                        <button type="button" class="btn btn-primary" id="passedTableSend">確認提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" id="changeInfoModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-secondary bg-opacity-50">
+                        <h5 class="modal-title fw-bold fs-4">
+                            <span class="iconify-inline" data-icon="fa-solid:tools"></span>
+                            <span>修改密碼</span>
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row gy-2">
+                            <div class="col-12">
+                                <form action="{{ url_for('root.change_password') }}" id="changeInfoForm" method="POST"
+                                      enctype="multipart/form-data">
+                                    <div class="input-group mb-2">
+                                        <label for="password" class="input-group-text fs-5">密碼</label>
+                                        <input name="password" type="password" id="password"
+                                               class="form-control password form-control-lg"
+                                               placeholder="輸入密碼">
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="passwordConfirm" class="input-group-text fs-5">確認密碼</label>
+                                        <input name="passwordConfirm" type="password" id="passwordConfirm"
+                                               class="form-control passwordConfirm form-control-lg"
+                                               placeholder="輸入確認密碼">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                        <button type="button" class="btn btn-primary" id="changeInfoSend">確認提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="modal fade" tabindex="-1" id="signInModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-secondary bg-opacity-50">
+                        <h5 class="modal-title fw-bold fs-4">
+                            <span class="iconify-inline" data-icon="ls:login"></span>
+                            <span>管理員登入</span>
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row gy-2">
+                            <div class="col-12">
+                                <form action="{{ url_for('root.login') }}" id="signInForm" method="POST"
+                                      enctype="multipart/form-data">
+                                    <div class="input-group mb-2">
+                                        <label for="username" class="input-group-text fs-5">帳號</label>
+                                        <input name="username" type="text" id="username"
+                                               class="form-control username form-control-lg"
+                                               placeholder="輸入帳號">
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="password" class="input-group-text fs-5">密碼</label>
+                                        <input name="password" type="password" id="password"
+                                               class="form-control password form-control-lg"
+                                               placeholder="輸入密碼">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                        <button type="button" class="btn btn-primary" id="signInSend">確認提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+    {#    <div class="modal fade" tabindex="-1" id="signUpModal">#}
+    {#        <div class="modal-dialog">#}
+    {#            <div class="modal-content">#}
+    {#                <div class="modal-header bg-secondary bg-opacity-50">#}
+    {#                    <h5 class="modal-title fw-bold fs-4">#}
+    {#                        <span class="iconify-inline" data-icon="jam:write-f"></span>#}
+    {#                        <span>管理員註冊</span>#}
+    {#                    </h5>#}
+    {#                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
+    {#                </div>#}
+    {#                <div class="modal-body">#}
+    {#                    <div class="row gy-2">#}
+    {#                        <div class="col-12">#}
+    {#                            <form action="{{ url_for('root.register') }}" id="signUpForm" method="POST"#}
+    {#                                  enctype="multipart/form-data">#}
+    {#                                <div class="input-group mb-2">#}
+    {#                                    <label for="username" class="input-group-text">帳號</label>#}
+    {#                                    <input name="username" type="text" id="username"#}
+    {#                                           class="form-control username" placeholder="輸入帳號">#}
+    {#                                </div>#}
+    {#                                <div class="input-group">#}
+    {#                                    <label for="password" class="input-group-text">密碼</label>#}
+    {#                                    <input name="password" type="password" id="password"#}
+    {#                                           class="form-control password"#}
+    {#                                           placeholder="輸入密碼">#}
+    {#                                </div>#}
+    {#                            </form>#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {#                </div>#}
+    {#                <div class="modal-footer">#}
+    {#                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>#}
+    {#                    <button type="button" class="btn btn-primary" id="signUpSend">確認提交</button>#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
+
+    <script>
+        const url_multiple_cert = "{{ url_for('root.multiple_cert') }}"
+    </script>
+    <!--  FileSaver  -->
+    <script src="{{ url_for('static', filename="node_modules/file-saver/dist/FileSaver.min.js") }}"></script>
+    <!--  Page Customize Javascript  -->
+    <script src="{{ url_for('static', filename='src/js/index.js') }}"></script>
+{% endblock %}

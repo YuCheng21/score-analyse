@@ -1,0 +1,20 @@
+// Required
+@import "../../node_modules/bootstrap/scss/functions";
+@import "./helpers/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+// Bootstrap
+@import "../../node_modules/bootstrap/scss/bootstrap";
+// Base
+@import "./base/global";
+// Components
+@import "./components/loading";
+// Layout
+@import "./layout/scrollbar";
+@import "./layout/main";
+// Utilities
+@import "./utilities/shadow";
+@import "./utilities/hover";
+// Customized
+@import "./pages/index";
+@import "./pages/result";
+

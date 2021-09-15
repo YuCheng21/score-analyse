@@ -1,0 +1,27 @@
+// 陰影
+.hv-shadow {
+  box-shadow: 0 3px 8px 6px rgba(17, 17, 17, 0.06);
+
+  &:hover {
+    box-shadow: 0 3px 8px 6px rgba(17, 17, 17, 0.15);
+  }
+}
+
+// 縮放
+.hv-scale {
+  transform: scale(1);
+  transition: .3s ease;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+// 改變顏色
+.hv-color-bg:hover {
+  background-color: tint-color($warning, 40%) !important;
+}
+
+.hv-color-text:hover {
+  color: tint-color($warning, 40%) !important;
+}

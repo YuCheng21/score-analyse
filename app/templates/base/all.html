@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+        <!-- encoding -->
+        <meta charset="UTF-8">
+        <!-- RWD -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!--  Favicon  -->
+        <link rel="apple-touch-icon" sizes="76x76"
+              href="{{ url_for('static', filename='src/img/favicon/apple-touch-icon.png') }}">
+        <link rel="icon" type="image/png" sizes="32x32"
+              href="{{ url_for('static', filename='src/img/favicon/favicon-32x32.png') }}">
+        <link rel="icon" type="image/png" sizes="16x16"
+              href="{{ url_for('static', filename='src/img/favicon/favicon-16x16.png') }}">
+        <meta name="msapplication-TileColor" content="#4caf50">
+        <meta name="theme-color" content="#4caf50">
+        <!--  Title  -->
+        <title>{{ title | default('Application') }} | 學生學程查詢系統</title>
+        <!--  Bootstrap  -->
+        <script src="{{ url_for('static', filename="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js") }}"></script>
+        <!--  JQuery  -->
+        <script src="{{ url_for('static', filename="node_modules/jquery/dist/jquery.min.js") }}"></script>
+        <!--  Axios  -->
+        <script src="{{ url_for('static', filename="node_modules/axios/dist/axios.min.js") }}"></script>
+        <!--  sweetalert  -->
+        <script src="{{ url_for('static', filename="node_modules/sweetalert2/dist/sweetalert2.all.min.js") }}"></script>
+        <!-- iconify -->
+        <script src="https://code.iconify.design/2/2.0.4/iconify.min.js"></script>
+        <!--  Customize CSS  -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='src/scss/all.css') }}">
+        <!--  Customize Javascript  -->
+        <script src="{{ url_for('static', filename='src/js/base.js') }}"></script>
+
+    {% endblock %}
+
+    {% block style %}
+        <style>
+            body {
+                background-image: url("{{ url_for('static', filename="src/img/doodles.png") }}");
+            }
+        </style>
+    {% endblock %}
+
+</head>
+<body class="d-flex flex-column min-vh-100">
+<header>
+    {% block header %}
+        <nav class="navbar navbar-dark navbar-expand-lg bg-primary px-3 fixed-top">
+            <div class="container-fluid">
+                <a href="{{ url_for('root.index') }}" class="navbar-brand fs-1 fw-bold py-0 ds-100 hv-scale hv-color-text">
+                    <span class="iconify-inline" data-icon="fa-solid:school"></span>
+                    <span>學生學程查詢系統</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarToggler">
+                    {% block navbar_item %}
+
+                    {% endblock %}
+                </div>
+            </div>
+        </nav>
+    {% endblock %}
+
+</header>
+<main>
+    {% block main %}
+
+    {% endblock %}
+
+</main>
+<footer class="mt-auto">
+    {% block footer %}
+        <div class="bg-primary d-flex justify-content-center align-items-center p-2">
+            <span class="text-white">
+                &copy; Copyright 2021 by 國立高雄科技大學電機工程系</a>
+            </span>
+        </div>
+    {% endblock %}
+
+</footer>
+{% block script %}
+    <script>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    errorDialog('{{ category }}', '{{ message }}');
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </script>
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+version: '3'
+services:
+  flask:
+    image: python:3.7.7
+    restart: always
+    expose:
+      - '80'
+    volumes:
+      - .:/code
+      - /etc/localtime:/etc/localtime:ro
+    working_dir: "/code"
+    links:
+      - "database:db"
+    env_file:
+      - ./docker/config.env
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        python -m pip install -r requirements.txt
+        python main.py
+  database:
+    image: mariadb:10.5.10
+    restart: always
+    expose:
+      - '3306'
+    ports:
+    - '20012:3306'
+    volumes:
+      - "./docker/mariadb/ddl.sql:/docker-entrypoint-initdb.d/1.sql"
+      - "./docker/mariadb/data.sql:/docker-entrypoint-initdb.d/2.sql"
+      - "./docker/mariadb/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf"
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - ./docker/config.env
+    command:
+      - mysqld
+      - --character-set-server=utf8
+      - --collation-server=utf8_general_ci
+  nginx:
+    image: 'nginx'
+    ports:
+      - '20011:443'
+      - '20010:80'
+    links:
+      - 'flask'
+    volumes:
+      - './docker/nginx/default.conf:/etc/nginx/conf.d/default.conf'
+      - './docker/nginx/certificate.crt:/etc/ssl/certificate.crt'
+      - './docker/nginx/private.key:/etc/ssl/private.key'
+      - './docker/nginx/ssl.conf:/etc/nginx/conf.d/snippets/ssl.conf'

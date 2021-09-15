@@ -1,0 +1,226 @@
+{% extends "base/all.html" %}
+
+{% block head %}
+    {{ super() }}
+    <!-- Chart.js -->
+    <script src="{{ url_for('static', filename="node_modules/chart.js/dist/chart.min.js") }}"></script>
+
+{% endblock %}
+
+{% block navbar_item %}
+    <ul class="navbar-nav fs-4 fw-bold ds-100">
+        <li class="nav-item hv-scale">
+            <a href="#info" class="nav-link text-white hv-color-text">
+                <span class="iconify-inline" data-icon="carbon:user-avatar-filled"></span>
+                <span>個人資料</span>
+            </a>
+        </li>
+        <li class="nav-item hv-scale">
+            <a href="#record" class="nav-link text-white hv-color-text">
+                <span class="iconify-inline" data-icon="fa-solid:list"></span>
+                <span>修課紀錄</span>
+            </a>
+        </li>
+        <li class="nav-item hv-scale dropdown">
+            <a href="#skills" class="nav-link text-white hv-color-text dropdown-toggle" data-bs-toggle="dropdown">
+                <span class="iconify-inline" data-icon="fa-solid:network-wired"></span>
+                <span>技能樹</span>
+            </a>
+            <ul class="dropdown-menu fade">
+                <li>
+                    <a href="#skill-1" class="dropdown-item hv-color-bg">
+                        <span class="iconify-inline" data-icon="icon-park-outline:database-power"></span>
+                        <span>智慧電網暨電能學程</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#skill-2" class="dropdown-item hv-color-bg">
+                        <span class="iconify-inline" data-icon="fluent:vehicle-car-profile-ltr-16-filled"></span>
+                        <span>電動車暨電能學程</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#skill-3" class="dropdown-item hv-color-bg">
+                        <span class="iconify-inline" data-icon="fa-solid:robot"></span>
+                        <span>智慧機器人學程</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#skill-4" class="dropdown-item hv-color-bg">
+                        <span class="iconify-inline" data-icon="icon-park-outline:brain"></span>
+                        <span>人工智慧與雲端計算學程</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item hv-scale">
+            <a href="#radar" class="nav-link text-white hv-color-text">
+                <span class="iconify-inline" data-icon="whh:radar"></span>
+                <span>雷達圖</span>
+            </a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block main %}
+    <div class="container py-5">
+        <div class="card border hv-shadow mb-4">
+            <div class="card-header">
+                <h2 id="info">
+                    <span class="iconify-inline" data-icon="carbon:user-avatar-filled"></span>
+                    <span>個人資料</span>
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="row justify-content-around text-center fs-4">
+                    <div class="col-md-6 col-lg-4" id="stuId">
+                        <span>學號：{{ student_id }}</span>
+                    </div>
+                    <div class="col-md-6 col-lg-4" id="stuName">
+                        <span>姓名：{{ student_name }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card border hv-shadow mb-4">
+            <div class="card-header">
+                <h2 id="record">
+                    <span class="iconify-inline" data-icon="fa-solid:list"></span>
+                    <span>修課紀錄</span>
+                </h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-hover table-bordered text-center table-sm fs-5">
+                    <thead class="bg-primary bg-opacity-50">
+                    <tr>
+                        <th>科目名稱</th>
+                        <th>科目註記</th>
+                        <th>必選修</th>
+                        <th>修讀學期</th>
+                        <th>學分</th>
+                        <th>成績</th>
+                    </tr>
+                    </thead>
+                    {% for row in score_list %}
+                        <tr>
+                            {% for col in row %}
+                                <td>{{ col }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <div class="card border border hv-shadow mb-4">
+            <div class="card-header">
+                <h2 id="skills">
+                    <span class="iconify-inline" data-icon="fa-solid:network-wired"></span>
+                    <span>技能樹</span>
+                </h2>
+            </div>
+            <div class="card-body">
+                {% if skill_tree is defined %}
+                    {% for key, value in skill_tree.items() %}
+                        <h3 id="skill-{{ loop.index }}" class="text-center bg-secondary bg-opacity-25">
+                            <span class="iconify-inline" data-icon="fa-solid:angle-double-down"></span>
+                            <span>{{ key }}</span>
+                            <span class="iconify-inline" data-icon="fa-solid:angle-double-down"></span>
+                        </h3>
+                        <table class="table table-bordered table-hover border-dark table-sm align-middle text-center fs-5">
+                            <thead class="bg-primary bg-opacity-50">
+                            <tr>
+                                <th>課程類別</th>
+                                <th width="400px">課程名稱</th>
+                                <th>學分數</th>
+                                <th>最低通過學分數</th>
+                                <th>已通過學分數</th>
+                            </tr>
+                            </thead>
+
+                            {% for row in value %}
+                                <tr>
+                                    {% if loop.index ==  1 %}
+                                        <!--  核心課程  -->
+                                        <td rowspan="{{ col_len(value)[0] }}">{{ row[0] }}</td>
+                                        <!--  應用課程  -->
+                                    {% elif loop.index == col_len(value)[0] + 1 %}
+                                        <td rowspan="{{ col_len(value)[1] }}">{{ row[0] }}</td>
+                                    {% endif %}
+
+                                    {% if is_pass(key, row[1], passed_skill_tree) %}
+                                        <!--  已通過  -->
+                                        <td class="table-primary border-dark">{{ row[1] }}</td>
+                                        <td class="table-primary border-dark">{{ row[2] }}</td>
+                                    {% else %}
+                                        <!--  未通過  -->
+                                        <td>{{ row[1] }}</td>
+                                        <td>{{ row[2] }}</td>
+                                    {% endif %}
+
+                                    {% if loop.index ==  1 %}
+                                        <!--  核心課程  -->
+                                        <td rowspan="{{ col_len(value)[0] }}">{{ row[3] }}</td>
+                                        <td rowspan="{{ col_len(value)[0] }}">{{ passed_skill_tree[key]['核心課程通過學分'] | sum }}</td>
+                                        <!--  應用課程  -->
+                                    {% elif loop.index == col_len(value)[0] + 1 %}
+                                        <td rowspan="{{ col_len(value)[1] }}">{{ row[3] }}</td>
+                                        <td rowspan="{{ col_len(value)[1] }}">{{ passed_skill_tree[key]['應用課程通過學分'] | sum }}</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="card border border hv-shadow mb-4">
+            <div class="card-header">
+                <h2 id="radar">
+                    <span class="iconify-inline" data-icon="whh:radar"></span>
+                    <span>雷達圖</span>
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <table class="table table-striped table-bordered table-hover align-middle text-center fs-4 h-100">
+                            <thead class="bg-primary bg-opacity-50">
+                            <tr>
+                                <th>學程</th>
+                                <th>已完成學分數</th>
+                                <th>最低通過學分數</th>
+                                <th>進度百分比</th>
+                            </tr>
+                            </thead>
+
+                            {% for row in radar_array %}
+                                <tr>
+                                    <td>{{ row[0] }}</td>
+                                    <td>{{ row[1] }}</td>
+                                    <td>{{ row[2] }}</td>
+                                    <td>{{ row[3] }}%</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        <canvas id="myRadar"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    {{ super() }}
+
+    {% if radar_array is defined %}
+        <script>
+            const radar = JSON.parse('{{ radar_array | tojson }}');
+        </script>
+    {% endif %}
+
+    <!--  Page Customize Javascript  -->
+    <script src="{{ url_for('static', filename='src/js/result.js') }}"></script>
+{% endblock %}
