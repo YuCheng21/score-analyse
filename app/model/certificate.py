@@ -247,7 +247,7 @@ class Certificate:
         else:
             exist_certificate_number = list(value['CertificateNumber'] for key, value in enumerate(results))
             while certificate_number in exist_certificate_number:
-                certificate_number += 1
+                certificate_number = str(int(certificate_number) + 1)
             return certificate_number
 
     def record_certificate(self, certificate_number, student_number, student_name, passed_type):

@@ -29,25 +29,25 @@
             </a>
             <ul class="dropdown-menu fade">
                 <li>
-                    <a href="#skill-1" class="dropdown-item hv-color-bg">
+                    <a href="#skill-智慧電網暨電能學程" class="dropdown-item hv-color-bg">
                         <span class="iconify-inline" data-icon="icon-park-outline:database-power"></span>
                         <span>智慧電網暨電能學程</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#skill-2" class="dropdown-item hv-color-bg">
+                    <a href="#skill-電動車暨電能學程" class="dropdown-item hv-color-bg">
                         <span class="iconify-inline" data-icon="fluent:vehicle-car-profile-ltr-16-filled"></span>
                         <span>電動車暨電能學程</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#skill-3" class="dropdown-item hv-color-bg">
+                    <a href="#skill-智慧機器人學程" class="dropdown-item hv-color-bg">
                         <span class="iconify-inline" data-icon="fa-solid:robot"></span>
                         <span>智慧機器人學程</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#skill-4" class="dropdown-item hv-color-bg">
+                    <a href="#skill-人工智慧與雲端計算學程" class="dropdown-item hv-color-bg">
                         <span class="iconify-inline" data-icon="icon-park-outline:brain"></span>
                         <span>人工智慧與雲端計算學程</span>
                     </a>
@@ -112,6 +112,7 @@
                 </table>
             </div>
         </div>
+
         <div class="card border border hv-shadow mb-4">
             <div class="card-header">
                 <h2 id="skills">
@@ -122,7 +123,7 @@
             <div class="card-body">
                 {% if skill_tree is defined %}
                     {% for key, value in skill_tree.items() %}
-                        <h3 id="skill-{{ loop.index }}" class="text-center bg-secondary bg-opacity-25">
+                        <h3 id="skill-{{ key }}" class="text-center bg-secondary bg-opacity-25">
                             <span class="iconify-inline" data-icon="fa-solid:angle-double-down"></span>
                             <span>{{ key }}</span>
                             <span class="iconify-inline" data-icon="fa-solid:angle-double-down"></span>
