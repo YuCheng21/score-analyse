@@ -235,8 +235,7 @@ class Certificate:
         with Mysql(db_config) as db:
             sql = f'''
                 SELECT CertificateNumber
-                FROM `score-analyse`.`generate-certificate`
-                where CertificateNumber=%(certificate_number)s;
+                FROM `score-analyse`.`generate-certificate`;
             '''
             bind = {
                 'certificate_number': certificate_number
