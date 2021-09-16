@@ -18,6 +18,7 @@
 {% endblock %}
 
 {% block navbar_item %}
+    {{ super() }}
     <ul class="navbar-nav fs-4 fw-bold ds-100">
         <li class="nav-item hv-scale">
             <a href="#" class="nav-link text-white hv-color-text" data-bs-toggle="modal" data-bs-target="#manualModal">
@@ -25,9 +26,16 @@
                 <span>使用說明</span>
             </a>
         </li>
+        <li class="nav-item hv-scale">
+            <a href="#" class="nav-link text-white hv-color-text" data-bs-toggle="modal" data-bs-target="#contactModal">
+                <span class="iconify-inline" data-icon="ic:baseline-contact-support"></span>
+                <span>聯絡資訊</span>
+            </a>
+        </li>
         {% if session['role'] == 'admin' %}
             <li class="nav-item hv-scale">
-                <a href="#" class="nav-link text-white hv-color-text" data-bs-toggle="modal" data-bs-target="#multipleCertModal">
+                <a href="#" class="nav-link text-white hv-color-text" data-bs-toggle="modal"
+                   data-bs-target="#multipleCertModal">
                     <span class="iconify-inline" data-icon="si-glyph:document-copy"></span>
                     <span>批次匯出證書</span>
                 </a>
@@ -39,7 +47,8 @@
                 </a>
                 <ul class="dropdown-menu fade">
                     <li>
-                        <a href="#" class="dropdown-item hv-color-bg" data-bs-toggle="modal" data-bs-target="#passedTableModal">
+                        <a href="#" class="dropdown-item hv-color-bg" data-bs-toggle="modal"
+                           data-bs-target="#passedTableModal">
                             <span class="iconify-inline" data-icon="majesticons:cloud-upload"></span>
                             <span>上傳抵免彙整表</span>
                         </a>
@@ -54,7 +63,8 @@
                 </ul>
             </li>
             <li class="nav-item hv-scale">
-                <a href="#" class="nav-link text-white hv-color-text" data-bs-toggle="modal" data-bs-target="#changeInfoModal">
+                <a href="#" class="nav-link text-white hv-color-text" data-bs-toggle="modal"
+                   data-bs-target="#changeInfoModal">
                     <span class="iconify-inline" data-icon="fa-solid:tools"></span>
                     <span>修改密碼</span>
                 </a>
@@ -67,7 +77,8 @@
             </li>
         {% else %}
             <li class="nav-item hv-scale">
-                <a href="#" class="nav-link text-white hv-color-text" data-bs-toggle="modal" data-bs-target="#signInModal">
+                <a href="#" class="nav-link text-white hv-color-text" data-bs-toggle="modal"
+                   data-bs-target="#signInModal">
                     <span class="iconify-inline" data-icon="ls:login"></span>
                     <span>管理員登入</span>
                 </a>
@@ -158,6 +169,39 @@
                     <video controls width="100%" height="auto">
                         <source src="{{ url_for('static',filename='src/video/Instructions.mp4') }}">
                     </video>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" id="contactModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-secondary bg-opacity-50">
+                    <h5 class="modal-title fw-bold fs-4">
+                        <span class="iconify-inline" data-icon="ic:baseline-contact-support"></span>
+                        <span>聯絡資訊</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-unstyled fs-3">
+                        <li>
+                            <span class="fw-bold">單位 : </span>
+                            <span>建工校區電機工程系 403C 實驗室</span>
+                        </li>
+                        <li>
+                            <span class="fw-bold">信箱 : </span>
+                            <a href="mailto:nkust.ee.hpds@gmail.com">nkust.ee.hpds@gmail.com</a>
+                        </li>
+                        <li>
+                            <span class="fw-bold">電話 : </span>
+                            <span>07-3814526</span>
+                        </li>
+                        <li>
+                            <span class="fw-bold">分機 : </span>
+                            <span>15570</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

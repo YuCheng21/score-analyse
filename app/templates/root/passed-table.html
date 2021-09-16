@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block navbar_item %}
+    {{ super() }}
     <ul class="navbar-nav fs-4 fw-bold ds-100">
         <li class="nav-item hv-scale">
             <a href="{{ url_for('root.index') }}" class="nav-link text-white">
