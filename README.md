@@ -1,6 +1,6 @@
 # 學生學程查詢系統
 
-![overview](Overview.png)
+![overview](overview.png)
 
 ## Overview
 
