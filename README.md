@@ -37,7 +37,7 @@
 - 修改成 Production 模式，編輯 `./main.py`。
 
     ```python
-    mode = 'production
+    mode = 'production'
     ```
 
 ### Startup
