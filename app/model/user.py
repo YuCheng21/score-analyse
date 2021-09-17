@@ -3,7 +3,7 @@
 """
 
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import session
+from flask import session, current_app
 
 from ..config.mysql import config as db_config
 from ..model.database import Mysql
@@ -37,7 +37,12 @@ class UserModel:
                 'password': self.password_hash,
                 'role': self.role
             }
-            db.exec(sql, bind)
+            try:
+                db.exec(sql, bind)
+            except Exception as e:
+                current_app.logger.error('function sign_up execute sql error')
+                current_app.logger.error(f'error msg: {e}')
+                raise
 
     @classmethod
     def get_user(cls, username):
@@ -70,7 +75,12 @@ class UserModel:
                 'username': self.username,
                 'password': self.password_hash
             }
-            db.exec(sql, bind)
+            try:
+                db.exec(sql, bind)
+            except Exception as e:
+                current_app.logger.error('function change_password execute sql error')
+                current_app.logger.error(f'error msg: {e}')
+                raise
 
     def save_session(self):
         session['username'] = self.username

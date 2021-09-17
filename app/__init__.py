@@ -2,6 +2,7 @@ from flask import Flask, render_template
 import os
 
 from .config.flask import config as flask_config
+from .config.flask import logger as handler
 from .config.base import project_path
 
 from .view.root import app as root
@@ -14,6 +15,8 @@ def create_app(config_name):
     app.template_folder = os.path.join(project_path, 'app', 'templates')
 
     app.register_blueprint(root)
+
+    app.logger.addHandler(handler)
 
     @app.errorhandler(404)
     def page_not_found(e):

@@ -6,6 +6,9 @@ import os
 import io
 import zipfile
 from datetime import datetime
+
+from flask import current_app
+
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -193,11 +196,16 @@ class Certificate:
                 try:
                     f_zip.writestr(f'{student_id}.pdf', certificate)
                 except Exception as e:
-                    print("Exception type is :%s" % type(e))
-                    print("Exception content is :%s" % e)
+                    current_app.logger.error('function generate_zip save certificate error')
+                    current_app.logger.error(f'error msg: {e}')
+                    raise
 
             # write into file to record
-            temp_txt.write(f'{student_id},{student_name},{passed_type},\n')
+            try:
+                temp_txt.write(f'{student_id},{student_name},{passed_type},\n')
+            except Exception as e:
+                current_app.logger.error(f'function generate_zip write summary error')
+                current_app.logger.error(f'error msg: {e}')
 
         file_txt = temp_txt.getvalue()
         temp_txt.close()
@@ -262,7 +270,12 @@ class Certificate:
                 'student_name': student_name,
                 'passed_type': str(passed_type)
             }
-            db.exec(sql, bind)
+            try:
+                db.exec(sql, bind)
+            except Exception as e:
+                current_app.logger.error('function record_certificate error')
+                current_app.logger.error(f'error msg: {e}')
+                raise
 
     def update_certificate(self, certificate_number, passed_type):
         with Mysql(db_config) as db:
@@ -275,4 +288,9 @@ class Certificate:
                 'certificate_number': certificate_number,
                 'passed_type': str(passed_type)
             }
-            db.exec(sql, bind)
+            try:
+                db.exec(sql, bind)
+            except Exception as e:
+                current_app.logger.error('function update_certificate error')
+                current_app.logger.error(f'error msg: {e}')
+                raise

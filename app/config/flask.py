@@ -1,5 +1,10 @@
 import os
 import datetime
+import platform
+import logging
+from logging.handlers import TimedRotatingFileHandler
+
+from .base import project_path
 
 
 class BaseConfig:
@@ -22,3 +27,24 @@ config = {
     'development': DevelopmentConfig,
     'production': ProductionConfig
 }
+
+
+def logger():
+    formatter = logging.Formatter(
+        '[%(asctime)s][%(pathname)s:%(lineno)d][%(levelname)s] - %(message)s'
+    )
+    file_dir = os.path.join(project_path, 'app', 'logs')
+    if not os.path.exists(file_dir):
+        os.mkdir(file_dir)
+    file_name = os.path.join(file_dir, 'flask.log')
+    if platform.system() == 'Linux':
+        handler = TimedRotatingFileHandler(file_name, when='D', interval=1, backupCount=15,
+                                           encoding='UTF-8', delay=False, utc=True)
+    else:
+        handler = logging.FileHandler(file_name)
+
+    handler.setFormatter(formatter)
+    return handler
+
+
+logger = logger()
