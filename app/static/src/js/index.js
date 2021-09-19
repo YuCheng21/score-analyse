@@ -4,6 +4,24 @@ $(document).ready(function () {
 })
 
 /**
+ * loading element
+ */
+const markup = `
+<div class="loading">
+    <div class="loadingWrapper">
+        <div class="loadingCircle"></div>
+        <div class="loadingCircle"></div>
+        <div class="loadingCircle"></div>
+        <div class="loadingShadow"></div>
+        <div class="loadingShadow"></div>
+        <div class="loadingShadow"></div>
+        <span>處理中，請稍後</span>
+    </div>
+</div>
+`;
+const loading = $(markup);
+
+/**
  * manualModal
  */
 $('#manualModal').on('hide.bs.modal', function () {
@@ -17,9 +35,7 @@ $('#manualModal').on('hide.bs.modal', function () {
  * singleCert
  */
 $('#singleCertInput').change(function () {
-    $('#singleCert').submit()
-
-    const loading = $('<div class="loading">Loading&#8230;</div>');
+    $('#singleCert').submit();
     $('body').prepend(loading);
 })
 
@@ -101,7 +117,6 @@ $('#passedTableModal').on('hide.bs.modal', function () {
  */
 $('#multipleCertSend').click(function () {
     var formData = new FormData(document.querySelector('#multipleCertForm'))
-    const loading = $('<div class="loading">Loading&#8230;</div>');
     $('body').prepend(loading);
 
     axios({
