@@ -48,7 +48,8 @@
     {% block header %}
         <nav class="navbar navbar-dark navbar-expand-lg bg-primary px-3 fixed-top">
             <div class="container-fluid">
-                <a href="{{ url_for('root.index') }}" class="navbar-brand fs-1 fw-bold py-0 ds-100 hv-scale hv-color-text">
+                <a href="{{ url_for('root.index') }}"
+                   class="navbar-brand fs-1 fw-bold py-0 ds-100 hv-scale hv-color-text">
                     <span class="iconify-inline" data-icon="fa-solid:school"></span>
                     <span>學生學程查詢系統</span>
                 </a>
@@ -82,6 +83,7 @@
 
 </footer>
 {% block script %}
+    <!--  Alert  -->
     <script>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
