@@ -11299,4 +11299,13 @@ main {
   color: #ffda6a !important;
 }
 
+#intro-1, #intro-2 {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: rgba(25, 135, 84, 0.2);
+  background-blend-mode: normal;
+  background-attachment: scroll;
+  background-position: center;
+}
+
 /*# sourceMappingURL=all.css.map */
