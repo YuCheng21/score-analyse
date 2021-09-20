@@ -16,7 +16,7 @@
         <meta name="msapplication-TileColor" content="#4caf50">
         <meta name="theme-color" content="#4caf50">
         <!--  Title  -->
-        <title>{{ title | default('Application') }} | 學生學程查詢系統</title>
+        <title>{{ title | default('Application') }} | 學程進度查詢</title>
         <!--  Bootstrap  -->
         <script src="{{ url_for('static', filename="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js") }}"></script>
         <!--  JQuery  -->
@@ -51,7 +51,7 @@
                 <a href="{{ url_for('root.index') }}"
                    class="navbar-brand fs-1 fw-bold py-0 ds-100 hv-scale hv-color-text">
                     <span class="iconify-inline" data-icon="fa-solid:school"></span>
-                    <span>學生學程查詢系統</span>
+                    <span>學程進度查詢</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler">
                     <span class="navbar-toggler-icon"></span>
