@@ -10,7 +10,7 @@ from .base import project_path
 class RequestFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         record.url = request.url
-        record.remote_addr = request.remote_addr
+        record.remote_addr = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
         return super(RequestFormatter, self).format(record=record)
 
 
@@ -31,5 +31,6 @@ def logger():
         datefmt='%Y-%m-%d %H:%M:%S'
     )
     handler.setFormatter(formatter)
+    handler.setLevel(logging.INFO)
 
     return handler
