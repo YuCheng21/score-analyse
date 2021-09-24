@@ -2,8 +2,7 @@ from flask import Flask, render_template, g
 import os
 
 from .config.flask_cfg import config as flask_config
-from .config.logger_cfg import logger as log_handler
-from .config.logger_cfg import ContextFilter as LogFilter
+from .config.logger_cfg import logger as logger_handler
 from .config.base import project_path, website_name
 
 from .view.root import app as root
@@ -17,8 +16,7 @@ def create_app(config_name):
 
     app.register_blueprint(root)
 
-    app.logger.addHandler(log_handler())
-    app.logger.addFilter(LogFilter())
+    app.logger.addHandler(logger_handler())
 
     @app.before_request
     def before_request():
