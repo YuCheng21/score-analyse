@@ -31,16 +31,30 @@
             </a>
         </li>
         {% if session['role'] == 'admin' %}
-            <li class="nav-item hv-scale">
-                <a href="#" class="nav-link text-white hv-color-text" data-bs-toggle="modal"
-                   data-bs-target="#multipleCertModal">
-                    <span class="iconify-inline" data-icon="si-glyph:document-copy"></span>
-                    <span>批次匯出證書</span>
+            <li class="nav-item hv-scale dropdown">
+                <a href="#" class="nav-link text-white hv-color-text dropdown-toggle" data-bs-toggle="dropdown">
+                    <span class="iconify-inline" data-icon="icon-park-outline:certificate"></span>
+                    <span>學程證書</span>
                 </a>
+                <ul class="dropdown-menu fade">
+                    <li>
+                        <a href="#" class="dropdown-item hv-color-bg" data-bs-toggle="modal"
+                           data-bs-target="#multipleCertModal">
+                            <span class="iconify-inline" data-icon="si-glyph:document-copy"></span>
+                            <span>批次匯出證書</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('root.certificate') }}" class="dropdown-item hv-color-bg">
+                            <span class="iconify-inline" data-icon="fa-solid:history"></span>
+                            <span>查看證書紀錄</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
-            <li class="nav-item dropdown">
-                <a href="#skills" class="nav-link text-white hv-color-text dropdown-toggle" data-bs-toggle="dropdown">
-                    <span class="iconify-inline" data-icon="bi:table"></span>
+            <li class="nav-item hv-scale dropdown">
+                <a href="#" class="nav-link text-white hv-color-text dropdown-toggle" data-bs-toggle="dropdown">
+                    <span class="iconify-inline" data-icon="mdi:cog-transfer"></span>
                     <span>抵免彙整表</span>
                 </a>
                 <ul class="dropdown-menu fade">
@@ -53,8 +67,7 @@
                     </li>
                     <li>
                         <a href="{{ url_for('root.passed') }}" class="dropdown-item hv-color-bg">
-                            <span class="iconify-inline"
-                                  data-icon="fluent:text-bullet-list-square-edit-20-filled"></span>
+                            <span class="iconify-inline" data-icon="fa-solid:history"></span>
                             <span>查看抵免彙整表</span>
                         </a>
                     </li>
@@ -175,7 +188,7 @@
 
     <!--  Set Variable  -->
     <script>
-        const url_multiple_cert = "{{ url_for('root.multiple_cert') }}"
+        const url_multiple_cert = "{{ url_for('root.certificate') }}"
     </script>
     <!--  FileSaver  -->
     <script src="{{ url_for('static', filename="node_modules/file-saver/dist/FileSaver.min.js") }}"></script>

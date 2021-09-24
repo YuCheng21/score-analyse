@@ -145,6 +145,7 @@ $('#multipleCertSend').click(function () {
     }).finally(function () {
         // console.log('finally')
         loading.remove()
+        bootstrap.Modal.getInstance(document.getElementById('multipleCertModal')).hide()
     })
 })
 

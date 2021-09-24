@@ -272,6 +272,7 @@ class Certificate:
             }
             try:
                 db.exec(sql, bind)
+                current_app.logger.info(f'{sql}, {bind}')
             except Exception as e:
                 current_app.logger.error('function record_certificate error')
                 current_app.logger.error(f'error msg: {e}')
@@ -290,7 +291,34 @@ class Certificate:
             }
             try:
                 db.exec(sql, bind)
+                current_app.logger.info(f'{sql}, {bind}')
             except Exception as e:
                 current_app.logger.error('function update_certificate error')
+                current_app.logger.error(f'error msg: {e}')
+                raise
+
+    def get_record(self):
+        with Mysql(db_config) as db:
+            sql = f'''
+                SELECT *
+                FROM `score-analyse`.`generate-certificate`
+            '''
+            results = db.query(sql)
+        return results
+
+    def delete_certificate(self, certificate_number):
+        with Mysql(db_config) as db:
+            sql = f'''
+                DELETE FROM `score-analyse`.`generate-certificate`
+                WHERE CertificateNumber=%(certificate_number)s;
+            '''
+            bind = {
+                'certificate_number': certificate_number
+            }
+            try:
+                db.exec(sql, bind)
+                current_app.logger.info(f'{sql}, {bind}')
+            except Exception as e:
+                current_app.logger.error('function delete_certificate error')
                 current_app.logger.error(f'error msg: {e}')
                 raise

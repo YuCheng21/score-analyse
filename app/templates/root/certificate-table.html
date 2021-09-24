@@ -1,0 +1,58 @@
+{% extends "base/all.html" %}
+
+{% block head %}
+    {{ super() }}
+    <!--  Bootstrap Table  -->
+    <link rel="stylesheet" href="{{ url_for('static', filename="node_modules/bootstrap-table/dist/bootstrap-table.min.css") }}">
+    <script src="{{ url_for('static', filename="node_modules/bootstrap-table/dist/bootstrap-table.min.js") }}"></script>
+    <script src="{{ url_for('static', filename="node_modules/bootstrap-table/dist/locale/bootstrap-table-zh-TW.min.js") }}"></script>
+
+{% endblock %}
+
+{% block navbar_item %}
+    {{ super() }}
+    <ul class="navbar-nav fs-4 fw-bold ds-100">
+        <li class="nav-item hv-scale">
+            <a href="{{ url_for('root.index') }}" class="nav-link text-white">
+                <span class="iconify-inline" data-icon="akar-icons:arrow-back-thick-fill"></span>
+                <span>上一頁</span>
+            </a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block main %}
+    <div class="container-fluid">
+        <div class="container">
+            <table class="table table-striped text-center align-middle fs-5 table-light"
+                   data-toggle="table"
+                   data-search="true"
+                   data-pagination="true"
+                   data-page-size="8"
+                   data-page-list="[5, 10, 25, All]"
+                   data-locale="zh-TW">
+                <thead>
+                <tr>
+                    <th data-sortable="true">證書編號</th>
+                    <th data-sortable="true">學號</th>
+                    <th data-sortable="true">姓名</th>
+                    <th data-sortable="true">通過課程</th>
+                    <th >操作</th>
+                </tr>
+                </thead>
+                {% for index in certificate_record %}
+                    <tr>
+                        <td>{{ index['CertificateNumber'] }}</td>
+                        <td>{{ index['StudentNumber'] }}</td>
+                        <td>{{ index['StudentName'] }}</td>
+                        <td>{{ index['PassedType'] }}</td>
+                        <td>
+                            <a class="btn btn-danger"
+                               href="{{ url_for('root.certificate', certificate_number=index['CertificateNumber']) }}">刪除</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

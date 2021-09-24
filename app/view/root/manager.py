@@ -20,22 +20,33 @@ def login_required(func):
     return wrapper
 
 
-class MultipleCert(MethodView):
+class Cert(MethodView):
     """
     證書相關
     """
-    def get(self):
-        abort(404)
+    def get(self, certificate_number):
+        if certificate_number is None:
+            title = '查看證書紀錄'
+            certificate_record = Certificate().get_record()
+            return render_template('./root/certificate-table.html', **locals())
+        else:
+            try:
+                Certificate().delete_certificate(certificate_number)
+            except:
+                flash('刪除失敗', category='error')
+            else:
+                flash('刪除成功', category='success-toast')
+            return redirect(url_for('root.certificate'))
 
     @login_required
     def post(self):
         # Get form
         try:
-            multipleCertInput = request.files.getlist("multipleCertInput")
+            multiple_cert_input = request.files.getlist("multipleCertInput")
             # "serial_number" is deprecated.
             serial_number = request.values.to_dict()['serialNumber']
-            if '' == multipleCertInput[0].filename:
-                raise Exception('01', 'multipleCertInput can not be empty')
+            if '' == multiple_cert_input[0].filename:
+                raise Exception('01', 'multiple_cert_input can not be empty')
         except Exception as e:
             if e.args[0] == '01':
                 return "Input file can not be empty"
@@ -48,7 +59,7 @@ class MultipleCert(MethodView):
             serial_number = 1
 
         # Extract pdf
-        score_array = TranscriptModel().multiple_extract(multipleCertInput)
+        score_array = TranscriptModel().multiple_extract(multiple_cert_input)
         # Append transform course
         passed_array = AnalyseModel().multiple_student(score_array)
 
@@ -65,8 +76,10 @@ class MultipleCert(MethodView):
         return response
 
 
-multiple_cert_view = MultipleCert.as_view('multiple_cert')
-app.add_url_rule('/multiple-cert', view_func=multiple_cert_view)
+certificate_view = Cert.as_view('certificate')
+app.add_url_rule('/certificate', view_func=certificate_view, methods=['POST'])
+app.add_url_rule('/certificate', defaults={'certificate_number': None}, view_func=certificate_view, methods=['GET'])
+app.add_url_rule('/certificate/<certificate_number>', view_func=certificate_view, methods=['GET'])
 
 
 class PassedTable(MethodView):
