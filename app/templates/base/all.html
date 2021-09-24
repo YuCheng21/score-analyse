@@ -29,8 +29,6 @@
         <script src="https://code.iconify.design/2/2.0.4/iconify.min.js"></script>
         <!--  Customize CSS  -->
         <link rel="stylesheet" href="{{ url_for('static', filename='src/scss/all.css') }}">
-        <!--  Customize Javascript  -->
-        <script src="{{ url_for('static', filename='src/js/base.js') }}"></script>
 
     {% endblock %}
 
@@ -79,7 +77,8 @@
                 <span>&copy; Copyright 2021 by 國立高雄科技大學電機工程系</span>
                 <span>|</span>
                 <span>
-                    Illustration by <a href="https://storyset.com/" class="text-decoration-none text-white" target="_blank">Storyset</a>
+                    Illustration by <a href="https://storyset.com/" class="text-decoration-none text-white"
+                                       target="_blank">Storyset</a>
                 </span>
             </span>
         </div>
@@ -87,6 +86,8 @@
 
 </footer>
 {% block script %}
+    <!--  Customize Javascript  -->
+    <script src="{{ url_for('static', filename='src/js/base.js') }}"></script>
     <!--  Alert  -->
     <script>
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -97,6 +98,7 @@
             {% endif %}
         {% endwith %}
     </script>
+
 {% endblock %}
 
 </body>

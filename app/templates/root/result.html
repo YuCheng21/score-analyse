@@ -214,10 +214,11 @@
     </div>
 {% endblock %}
 
-{% block footer %}
+{% block script %}
     {{ super() }}
 
     {% if radar_array is defined %}
+        <!--  Set Variable  -->
         <script>
             const radar = JSON.parse('{{ radar_array | tojson }}');
         </script>
@@ -225,4 +226,5 @@
 
     <!--  Page Customize Javascript  -->
     <script src="{{ url_for('static', filename='src/js/result.js') }}"></script>
+
 {% endblock %}

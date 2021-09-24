@@ -168,6 +168,12 @@
 
     {#    {% include "includes/modal/sign-up.html" %}#}
 
+{% endblock %}
+
+{% block script %}
+    {{ super() }}
+
+    <!--  Set Variable  -->
     <script>
         const url_multiple_cert = "{{ url_for('root.multiple_cert') }}"
     </script>
@@ -175,4 +181,5 @@
     <script src="{{ url_for('static', filename="node_modules/file-saver/dist/FileSaver.min.js") }}"></script>
     <!--  Page Customize Javascript  -->
     <script src="{{ url_for('static', filename='src/js/index.js') }}"></script>
+
 {% endblock %}

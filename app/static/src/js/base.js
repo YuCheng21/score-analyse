@@ -4,6 +4,20 @@ $(document).ready(function () {
 })
 
 /**
+ * Theme Color
+ */
+const style = getComputedStyle(document.body);
+const theme = {};
+theme.primary = style.getPropertyValue('--bs-primary');
+theme.secondary = style.getPropertyValue('--bs-secondary');
+theme.success = style.getPropertyValue('--bs-success');
+theme.info = style.getPropertyValue('--bs-info');
+theme.warning = style.getPropertyValue('--bs-warning');
+theme.danger = style.getPropertyValue('--bs-danger');
+theme.light = style.getPropertyValue('--bs-light');
+theme.dark = style.getPropertyValue('--bs-dark');
+
+/**
  * sweetAlert
  */
 function errorDialog(category, message) {
