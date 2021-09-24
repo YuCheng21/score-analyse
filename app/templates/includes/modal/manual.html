@@ -1,0 +1,18 @@
+<div class="modal fade" tabindex="-1" id="manualModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary bg-opacity-50">
+                <h5 class="modal-title fw-bold fs-4">
+                    <span class="iconify-inline" data-icon="clarity:info-standard-solid"></span>
+                    <span>使用說明</span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <video controls width="100%" height="auto">
+                    <source src="{{ url_for('static',filename='src/video/Instructions.mp4') }}">
+                </video>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="modal fade" tabindex="-1" id="changeInfoModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary bg-opacity-50">
+                <h5 class="modal-title fw-bold fs-4">
+                    <span class="iconify-inline" data-icon="fa-solid:tools"></span>
+                    <span>修改密碼</span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row gy-2">
+                    <div class="col-12">
+                        <form action="{{ url_for('root.change_password') }}" id="changeInfoForm" method="POST"
+                              enctype="multipart/form-data">
+                            <div class="input-group mb-2">
+                                <label for="password" class="input-group-text fs-5">密碼</label>
+                                <input name="password" type="password" id="password"
+                                       class="form-control password form-control-lg"
+                                       placeholder="輸入密碼">
+                            </div>
+                            <div class="input-group">
+                                <label for="passwordConfirm" class="input-group-text fs-5">確認密碼</label>
+                                <input name="passwordConfirm" type="password" id="passwordConfirm"
+                                       class="form-control passwordConfirm form-control-lg"
+                                       placeholder="輸入確認密碼">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                <button type="button" class="btn btn-primary" id="changeInfoSend">確認提交</button>
+            </div>
+        </div>
+    </div>
+</div>

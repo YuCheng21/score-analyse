@@ -1,0 +1,35 @@
+<div class="modal fade" tabindex="-1" id="passedTableModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary bg-opacity-50">
+                <h5 class="modal-title fw-bold fs-4">
+                    <span class="iconify-inline" data-icon="majesticons:cloud-upload"></span>
+                    <span>上傳抵免彙整表</span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row gy-2">
+                    <div class="col-12">
+                        <form action="{{ url_for('root.passed') }}" id="passedTableForm" method="POST"
+                              enctype="multipart/form-data">
+                            <input type="file" name="passedTableExcel"
+                                   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                   class="form-control form-control-lg mb-3 passedTableInput">
+                        </form>
+                        <p class="alert alert-warning">
+                            <span>上傳從「</span>
+                            <a href="https://ws3.nkust.edu.tw/Waiver" target="_blank">學分抵免申請系統</a>
+                            <span>」下載的彙整表，務必使用格式相同的檔案，避免內容錯誤，格式可以參考此</span>
+                            <a href="{{ url_for('static', filename="src/file/抵免彙整表 - 範本.xlsx") }}">範本</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                <button type="button" class="btn btn-primary" id="passedTableSend">確認提交</button>
+            </div>
+        </div>
+    </div>
+</div>

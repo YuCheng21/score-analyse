@@ -1,0 +1,37 @@
+<div class="modal fade" tabindex="-1" id="signUpModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary bg-opacity-50">
+                <h5 class="modal-title fw-bold fs-4">
+                    <span class="iconify-inline" data-icon="jam:write-f"></span>
+                    <span>管理員註冊</span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row gy-2">
+                    <div class="col-12">
+                        <form action="{{ url_for('root.register') }}" id="signUpForm" method="POST"
+                              enctype="multipart/form-data">
+                            <div class="input-group mb-2">
+                                <label for="username" class="input-group-text">帳號</label>
+                                <input name="username" type="text" id="username"
+                                       class="form-control username" placeholder="輸入帳號">
+                            </div>
+                            <div class="input-group">
+                                <label for="password" class="input-group-text">密碼</label>
+                                <input name="password" type="password" id="password"
+                                       class="form-control password"
+                                       placeholder="輸入密碼">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                <button type="button" class="btn btn-primary" id="signUpSend">確認提交</button>
+            </div>
+        </div>
+    </div>
+</div>
