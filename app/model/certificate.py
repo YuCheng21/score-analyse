@@ -19,7 +19,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, ListItem, L
 
 from .database import Mysql
 
-from ..config.mysql import config as db_config
+from ..config.mysql_cfg import config as db_config
 from ..config.base import project_path
 
 

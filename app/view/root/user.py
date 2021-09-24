@@ -1,5 +1,5 @@
 from . import app
-from flask import redirect, url_for, abort, flash, request, session
+from flask import redirect, url_for, abort, flash, request, session, current_app
 
 from mysql.connector import errorcode
 
@@ -27,6 +27,7 @@ def register():
             print(e)
             abort(404)
         else:
+            current_app.logger.info('註冊成功')
             flash('註冊成功！', category='success-toast')
             return redirect(url_for('root.index'))
 
@@ -51,6 +52,7 @@ def login():
             abort(404)
         else:
             user_info.save_session(user_info)
+            current_app.logger.info('登入成功')
             flash('登入成功！', category='success-toast')
             return redirect(url_for('root.index'))
 
@@ -71,6 +73,7 @@ def change_password():
             print(e)
             abort(404)
         else:
+            current_app.logger.info('修改密碼成功')
             flash('修改成功', category='success')
             return redirect(url_for('root.index'))
 
@@ -78,5 +81,6 @@ def change_password():
 @app.route('/logout')
 def logout():
     UserModel.remove_session()
+    current_app.logger.info('登出成功')
     flash('登出成功！', category='success-toast')
     return redirect(url_for('root.index'))

@@ -5,7 +5,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import session, current_app
 
-from ..config.mysql import config as db_config
+from ..config.mysql_cfg import config as db_config
 from ..model.database import Mysql
 
 
