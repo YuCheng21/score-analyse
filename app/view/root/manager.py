@@ -32,6 +32,7 @@ class MultipleCert(MethodView):
         # Get form
         try:
             multipleCertInput = request.files.getlist("multipleCertInput")
+            # "serial_number" is deprecated.
             serial_number = request.values.to_dict()['serialNumber']
             if '' == multipleCertInput[0].filename:
                 raise Exception('01', 'multipleCertInput can not be empty')
