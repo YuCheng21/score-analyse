@@ -1,5 +1,6 @@
 from flask import Flask, render_template, g
 import os
+import logging
 
 from .config.flask_cfg import config as flask_config
 from .config.logger_cfg import logger as logger_handler
@@ -17,6 +18,7 @@ def create_app(config_name):
     app.register_blueprint(root)
 
     app.logger.addHandler(logger_handler())
+    app.logger.setLevel(logging.INFO)
 
     @app.before_request
     def before_request():

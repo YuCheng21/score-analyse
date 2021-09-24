@@ -31,6 +31,5 @@ def logger():
         datefmt='%Y-%m-%d %H:%M:%S'
     )
     handler.setFormatter(formatter)
-    handler.setLevel(logging.INFO)
 
     return handler
