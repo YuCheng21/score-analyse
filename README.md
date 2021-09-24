@@ -47,6 +47,36 @@ docker-compose up -d
 - `20010` : HTTP ( 將自動跳轉到 HTTPS )
 - `20011` : HTTPS
 
+## Manual Build Development Environment
+
+手動搭建測試環境需要以下操作 :
+
+- 安裝 Python 套件 ( python:3.7.7 )
+
+  ```bash
+  pip install -r ./requirements.txt
+  ```
+
+- 安裝 NPM 套件 ( node:12.18.4 )
+
+```bash
+cd ./app/static
+npm install
+```
+
+- 配置環境所需的環境變數
+
+  - mysql_user : 資料庫使用者
+  - mysql_password : 資料庫密碼
+  - mysql_host : 資料庫地址
+  - SECRET_KEY : Flask Session 金鑰
+
+- 建立資料庫的結構與資料
+
+  - 結構 : `./docker/mariadb/ddl.sql`
+  - 資料 : `./docker/mariadb/data.sql`
+
+
 ## Project Structure
 
 ```text
