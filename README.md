@@ -59,10 +59,10 @@ docker-compose up -d
 
 - 安裝 NPM 套件 ( node:12.18.4 )
 
-```bash
-cd ./app/static
-npm install
-```
+  ```bash
+  cd ./app/static
+  npm install
+  ```
 
 - 配置環境所需的環境變數
 
@@ -85,6 +85,7 @@ npm install
 │   ├── config ( App 配置 )
 │   │   ├── base.py ( 專案 )
 │   │   ├── flask.py ( Flask )
+│   │   ├── logger.py ( Logger )
 │   │   └── mysql.py ( Mysql )
 │   ├── logs ( 日誌 )
 │   │   └── flask.log
@@ -124,9 +125,12 @@ npm install
 │   │   ├── 404.html ( 404 頁面 )
 │   │   ├── base ( 基底 )
 │   │   │   └── all.html
+│   │   ├── includes ( 模組化元件 )
+│   │   │   └── ...
 │   │   └── root ( 基於網站根目錄 )
 │   │       ├── index.html ( 首頁 )
-│   │       ├── passed-table.html ( 抵免頁面 )
+│   │       ├── passed-table.html ( 抵免紀錄頁面 )
+│   │       ├── certificate-table.html ( 證書紀錄頁面 )
 │   │       └── result.html ( 分析結果頁面 )
 │   ├── __init__.py ( flask 建立 )
 │   └── view ( 路由控制 )
