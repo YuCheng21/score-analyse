@@ -24,6 +24,7 @@ class Cert(MethodView):
     """
     證書相關
     """
+    @login_required
     def get(self, certificate_number):
         if certificate_number is None:
             title = '查看證書紀錄'
