@@ -135,6 +135,18 @@ class Certificate:
                 badge_width,
                 badge_height
             ).addFromList(badge, canvas)
+
+            seal = [
+                Image(os.path.join(self.reportlab_path, "seal.png"), width=4.6 * cm,
+                      height=2.23 * cm)
+            ]
+            Frame(
+                0,
+                5.65 * cm,
+                badge_width - 0.1 * cm,
+                2.23 * cm + 0.5 * cm
+            ).addFromList(seal, canvas)
+
             header = [
                 Paragraph(f'電機證字第{certificate_number}號', header_font),
             ]
