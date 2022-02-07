@@ -52,7 +52,7 @@ def skill_tree_label():
             [course_type[1], '電動車能量管理與控制', 3, course_rules[1][1]],
             [course_type[1], '電機應用', 3, course_rules[1][1]],
             [course_type[1], 'MATLAB工程實務應用暨實習', 3, course_rules[1][1]],
-            [course_type[1], '計算機輔助電路分析暨實習', 3, course_rules[1][1]],
+            [course_type[1], '計算機輔助電路分析', 3, course_rules[1][1]],
             [course_type[1], '感測器佈建與應用實務', 3, course_rules[1][1]],
             [course_type[1], '積體電路應用', 3, course_rules[1][1]],
             [course_type[1], '工程電路模擬與設計', 3, course_rules[1][1]],
