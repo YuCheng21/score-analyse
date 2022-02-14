@@ -137,7 +137,7 @@ class Certificate:
             ).addFromList(badge, canvas)
 
             seal = [
-                Image(os.path.join(self.reportlab_path, "seal.png"), width=4.6 * cm,
+                Image(os.path.join(self.reportlab_path, "Dai.png"), width=4.6 * cm,
                       height=2.23 * cm)
             ]
             Frame(
