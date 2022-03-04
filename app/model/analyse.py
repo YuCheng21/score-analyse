@@ -9,10 +9,10 @@ from .passed_course import PassedCourse
 
 def skill_tree_label():
     course_rules = [
-        [9, 12],
-        [13, 12],
-        [9, 12],
-        [12, 9]
+        [9, 12],  # 智慧電網暨電能學程[核心課程規定學分][應用課程規定學分]
+        [13, 12],  # 電動車暨電能學程[核心課程規定學分][應用課程規定學分]
+        [9, 12],  # 智慧機器人學程[核心課程規定學分][應用課程規定學分]
+        [12, 9]  # 人工智慧與雲端計算學程[核心課程規定學分][應用課程規定學分]
     ]
     course_type = [
         '核心課程',
@@ -33,6 +33,8 @@ def skill_tree_label():
             [course_type[1], '數位信號處理', 3, course_rules[0][1]],
             [course_type[1], '工程電路模擬與設計', 3, course_rules[0][1]],
             [course_type[1], '綠色電能轉換', 3, course_rules[0][1]],
+            [course_type[1], '電磁學', 3, course_rules[0][1]],
+            [course_type[1], '電工儀表暨實習', 3, course_rules[0][1]],
             [course_type[1], '智慧電網暨實習', 3, course_rules[0][1]],
             [course_type[1], '固態轉換器暨實習', 3, course_rules[0][1]],
             [course_type[1], '電力電子分析暨實習', 3, course_rules[0][1]],
@@ -51,6 +53,8 @@ def skill_tree_label():
             [course_type[1], '電動車控制', 3, course_rules[1][1]],
             [course_type[1], '電動車能量管理與控制', 3, course_rules[1][1]],
             [course_type[1], '電機應用', 3, course_rules[1][1]],
+            [course_type[1], '電磁學', 3, course_rules[1][1]],
+            [course_type[1], '電工儀表暨實習', 3, course_rules[1][1]],
             [course_type[1], 'MATLAB工程實務應用暨實習', 3, course_rules[1][1]],
             [course_type[1], '計算機輔助電路分析', 3, course_rules[1][1]],
             [course_type[1], '感測器佈建與應用實務', 3, course_rules[1][1]],
