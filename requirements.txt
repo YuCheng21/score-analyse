@@ -9,7 +9,7 @@ Jinja2==3.0.1
 MarkupSafe==2.0.1
 mysql-connector-python==8.0.26
 numpy==1.21.2
-openpyxl==3.0.8
+openpyxl==3.0.9
 pandas==1.3.3
 pdfminer.six==20200517
 pdfplumber==0.5.28
