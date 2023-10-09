@@ -67,14 +67,14 @@ $colors: (
 // scss-docs-end colors-map
 
 // scss-docs-start theme-color-variables
-$primary:       $green !default;
-$secondary:     $gray-600 !default;
-$success:       $blue !default;
-$info:          $cyan !default;
-$warning:       $yellow !default;
-$danger:        $red !default;
-$light:         $gray-100 !default;
-$dark:          $gray-900 !default;
+$light:         #cee4fa !default;
+$dark:          #020304 !default;
+$primary:       #005154 !default;
+$secondary:     #23a27c !default;
+$info:          #cc62dd !default;
+$success:       #00a94b !default;
+$warning:       #edc900 !default;
+$danger:        #f6002f !default;
 // scss-docs-end theme-color-variables
 
 // scss-docs-start theme-colors-map
