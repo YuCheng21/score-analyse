@@ -3,11 +3,11 @@ services:
   flask:
     image: python:3.7.7
     restart: always
-    expose:
-      - '80'
+    ports:
+      - '20010:80'
     volumes:
       - .:/code
-      - /etc/localtime:/etc/localtime:ro
+#      - /etc/localtime:/etc/localtime:ro
       - node_modules:/code/app/static/node_modules
     working_dir: "/code"
     links:
@@ -35,25 +35,25 @@ services:
       - "./docker/mariadb/ddl.sql:/docker-entrypoint-initdb.d/1.sql"
       - "./docker/mariadb/data.sql:/docker-entrypoint-initdb.d/2.sql"
       - "./docker/mariadb/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf"
-      - /etc/localtime:/etc/localtime:ro
+#      - /etc/localtime:/etc/localtime:ro
     env_file:
       - ./docker/config.env
     command:
       - mysqld
       - --character-set-server=utf8
       - --collation-server=utf8_general_ci
-  nginx:
-    image: 'nginx'
-    restart: always
-    ports:
-      - '20011:443'
-      - '20010:80'
-    links:
-      - 'flask'
-    volumes:
-      - './docker/nginx/default.conf:/etc/nginx/conf.d/default.conf'
-      - './docker/nginx/certificate.crt:/etc/ssl/certificate.crt'
-      - './docker/nginx/private.key:/etc/ssl/private.key'
-      - './docker/nginx/ssl.conf:/etc/nginx/conf.d/snippets/ssl.conf'
+#  nginx:
+#    image: 'nginx'
+#    restart: always
+#    ports:
+#      - '20011:443'
+#      - '20010:80'
+#    links:
+#      - 'flask'
+#    volumes:
+#      - './docker/nginx/default.conf:/etc/nginx/conf.d/default.conf'
+#      - './docker/nginx/certificate.crt:/etc/ssl/certificate.crt'
+#      - './docker/nginx/private.key:/etc/ssl/private.key'
+#      - './docker/nginx/ssl.conf:/etc/nginx/conf.d/snippets/ssl.conf'
 volumes:
   node_modules:
